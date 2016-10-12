@@ -1,0 +1,8 @@
+{
+  "name": "drupal/aluminum_blocks",
+  "type": "drupal-module",
+  "description": "Creates basic user-configurable blocks that are generally useful for most sites.",
+  "homepage": "https://github.com/TopFloorTech/drupal-aluminum_blocks",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev"
+}

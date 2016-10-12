@@ -1,0 +1,10 @@
+name: Aluminum Blocks
+type: module
+description: 'Creates some basic user-configurable blocks that are generally useful for most sites.'
+version: 8.x-1.x
+core: 8.x
+package: Aluminum
+dependencies:
+  - aluminum
+  - aluminum_storage
+  - block

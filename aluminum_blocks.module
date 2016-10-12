@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Provides some common configurable blocks for use in the Spacelift theme
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function aluminum_blocks_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.aluminum_blocks':
+      return check_markup(file_get_contents(dirname(__FILE__) . "/README.txt"));
+  }
+}
+
+function aluminum_blocks_theme($existing, $type, $theme, $path) {
+  return [
+    'aluminum_follow_list' => [
+      'variables' => ['list' => NULL],
+    ],
+    'aluminum_phone_number' => [
+      'variables' => ['phone_number' => NULL, 'url' => NULL]
+    ],
+    'aluminum_phone_number_list' => [
+      'variables' => ['list' => NULL],
+    ],
+  ];
+}
