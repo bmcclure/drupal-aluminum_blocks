@@ -52,13 +52,13 @@ class AluminumFollowBlock extends AluminumBlockBase {
   protected function iconClass($id) {
     $config = ConfigManager::getConfig('appearance');
 
-    $class = $config->getValue($id . '_icon_class', 'classes');
+    $class = $config->getValue($id . '_icon_class', 'icons');
 
     if (empty($class)) {
       return "";
     }
 
-    $baseIconClass = $config->getValue('base_icon_class', 'classes');
+    $baseIconClass = $config->getValue('base_icon_class', 'icons');
 
     if (!empty($baseIconClass)) {
       $class = "$baseIconClass $class";
