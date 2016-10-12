@@ -26,7 +26,9 @@ class AluminumFollowBlock extends AluminumBlockBase {
 
     $weight = 10;
 
-    foreach (aluminum_storage_social_networks() as $id => $name) {
+    foreach (aluminum_storage_social_networks() as $id => $info) {
+      $name = $info['name'];
+
       $options[$id . '_enabled'] = [
         '#type' => 'checkbox',
         '#title' => $this->t($name . ' enabled'),
