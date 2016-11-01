@@ -22,6 +22,9 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_follow_list' => [
       'variables' => ['list' => NULL],
     ],
+    'aluminum_link_list' => [
+      'variables' => ['list' => NULL],
+    ],
     'aluminum_phone_number' => [
       'variables' => ['phone_number' => NULL, 'url' => NULL]
     ],
