@@ -15,3 +15,5 @@ aluminum_phone_number_block:
   phone_number_type: 'phone_number'
 aluminum_link_list_block:
   links: ''
+aluminum_content_fields_block:
+  content_fields: ''

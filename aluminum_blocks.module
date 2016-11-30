@@ -31,5 +31,8 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_phone_number_list' => [
       'variables' => ['list' => NULL],
     ],
+    'aluminum_content' => [
+      'variables' => ['entity_Type' => NULL, 'entity_id' => NULL, 'view_mode' => NULL]
+    ],
   ];
 }

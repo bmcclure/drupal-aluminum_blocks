@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BMcClure
- * Date: 9/9/2016
- * Time: 2:13 PM
- */
 
 namespace Drupal\aluminum_blocks\Plugin\Block;
 use Drupal\aluminum_storage\Aluminum\Config\ConfigManager;
-use Drupal\Core\Link;
+use Drupal\Core\Annotation\Translation;
+use Drupal\Core\Block\Annotation\Block;
 use Drupal\Core\Url;
 
 /**
