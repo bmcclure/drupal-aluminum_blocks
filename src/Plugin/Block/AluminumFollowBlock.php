@@ -23,7 +23,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
     $options['link_target'] = [
       '#type' => 'select',
       '#title' => $this->t('Link target'),
-      '#description' => $this->t('select the browser target for the follow links.'),
+      '#description' => $this->t('Select the browser target for the follow links.'),
       '#options' => [
         '_blank' => 'New window',
         '_self' => 'Same window',
