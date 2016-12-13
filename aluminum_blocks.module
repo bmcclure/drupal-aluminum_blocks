@@ -20,7 +20,7 @@ function aluminum_blocks_help($route_name, RouteMatchInterface $route_match) {
 function aluminum_blocks_theme($existing, $type, $theme, $path) {
   return [
     'aluminum_follow_list' => [
-      'variables' => ['list' => NULL],
+      'variables' => ['list' => NULL, 'link_target' => NULL],
     ],
     'aluminum_link_list' => [
       'variables' => ['list' => NULL],

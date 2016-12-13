@@ -20,6 +20,19 @@ class AluminumFollowBlock extends AluminumBlockBase {
   public function getOptions() {
     $options = [];
 
+    $options['link_target'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Link target'),
+      '#description' => $this->t('select the browser target for the follow links.'),
+      '#options' => [
+        '_blank' => 'New window',
+        '_self' => 'Same window',
+        '_parent' => 'Parent frame',
+        '_top' => 'Top frame',
+      ],
+      '#default_value' => '_blank',
+    ];
+
     $weight = 10;
 
     foreach (aluminum_storage_social_networks() as $id => $info) {
@@ -99,6 +112,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
     return [
       '#theme' => 'aluminum_follow_list',
       '#list' => $this->getSocialNetworks(),
+      '#link_target' => $this->getOptionValue('link_target', '_blank'),
     ];
   }
 }

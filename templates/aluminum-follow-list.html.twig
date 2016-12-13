@@ -1,7 +1,7 @@
 <ul class="AluminumFollowList">
     {% for link in list %}
         <li class="AluminumFollowList-item">
-            <a class="AluminumFollowList-link" href="{{ link.url }}">
+            <a class="AluminumFollowList-link" href="{{ link.url }}" target="{{ link_target }}">
               <span class="fa-stack">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="{{ link.icon_class }} fa-stack-1x"></i>
