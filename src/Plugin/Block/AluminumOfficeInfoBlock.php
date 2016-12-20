@@ -27,17 +27,19 @@ class AluminumOfficeInfoBlock extends AluminumPhoneNumberListBlock {
     $options = parent::getOptions();
 
     $options['office_address'] = [
-      '#type' => 'textarea',
+      '#type' => 'text_format',
+      '#format' => 'basic_html',
       '#title' => $this->t('Office address'),
       '#description' => $this->t('Enter the address of the office to display.'),
-      '#default_value' => '',
+      '#default_value' => '<p></p>',
     ];
 
     $options['office_hours'] = [
-      '#type' => 'textarea',
+      '#type' => 'text_format',
+      '#format' => 'basic_html',
       '#title' => $this->t('Office hours'),
       '#description' => $this->t('Enter the hours to display for this office.'),
-      '#default_value' => '',
+      '#default_value' => '<p></p>',
     ];
 
     return $options;
@@ -47,14 +49,25 @@ class AluminumOfficeInfoBlock extends AluminumPhoneNumberListBlock {
    * {@inheritdoc}
    */
   public function build() {
+    $officeAddress = $this->getOptionValue('office_address');
+    $officeHours = $this->getOptionValue('office_hours');
+
     return [
       '#theme' => 'aluminum_office_info',
-      '#address' => $this->getOptionValue('office_address', TRUE),
+      '#address' => [
+        '#type' => 'processed_text',
+        '#text' => $officeAddress['value'],
+        '#format' => $officeAddress['format'],
+      ],
       '#phone_list' => [
         '#theme' => 'aluminum_phone_number_list',
         '#list' => $this->getList(),
       ],
-      '#office_hours' => $this->getOptionValue('office_hours', TRUE),
+      '#office_hours' => [
+        '#type' => 'processed_text',
+        '#text' => $officeHours['value'],
+        '#format' => $officeHours['format'],
+      ],
     ];
   }
 }
