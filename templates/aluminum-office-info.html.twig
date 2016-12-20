@@ -1,5 +1,22 @@
-<div class="AluminumOfficeInfo">
-  {{ address }}
-  {{ phone_list }}
-  {{ office_hours }}
-</div>
+<dl class="AluminumOfficeInfo">
+  {% if address %}
+    <dt><i class="fa fa-map-marker" aria-hidden="true"></i></dt>
+    <dd class="AluminumOfficeInfo-address">
+      {{ address }}
+    </dd>
+  {% endif %}
+
+  {% if phone_list %}
+    <dt></dt>
+    <dd class="AluminumOfficeInfo-phoneList">
+      {{ phone_list }}
+    </dd>
+  {% endif %}
+
+  {% if office_hours %}
+    <dt><i class="fa fa-clock-o" aria-hidden="true"></i></dt>
+    <dd class="AluminumOfficeInfo-officeHours">
+      {{ office_hours }}
+    </dd>
+  {% endif %}
+</dl>
