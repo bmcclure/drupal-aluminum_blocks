@@ -10,6 +10,7 @@ namespace Drupal\aluminum_blocks\Plugin\Block;
 use Drupal\aluminum_storage\Aluminum\Config\ConfigManager;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Provides an 'Office information' block
@@ -43,6 +44,18 @@ class AluminumOfficeInfoBlock extends AluminumPhoneNumberListBlock {
     ];
 
     return $options;
+  }
+
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+
+    foreach (['office_address', 'office_hours'] as $field) {
+      $data = $form[$field]['#default_value'];
+      $form[$field]['#default_value'] = $data['value'];
+      $form[$field]['#format'] = $data['format'];
+    }
+
+    return $form;
   }
 
   /**
