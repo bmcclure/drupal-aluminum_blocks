@@ -60,6 +60,10 @@ class AluminumContentBlock extends AluminumBlockBase {
   protected function getEntityView() {
     $entity = $this->loadEntity();
 
+    if (is_null($entity)) {
+      return [];
+    }
+
     $viewMode = $this->getOptionValue('view_mode');
     $viewMode = $viewMode ?: 'full';
 
@@ -78,8 +82,10 @@ class AluminumContentBlock extends AluminumBlockBase {
     $entity = NULL;
 
     $entityType = $this->getOptionValue('entity_type');
-    if (empty($entityType)) {
-      $entity = $this->loadCurrentEntity();
+    $entityId = $this->getOptionValue('entity_id');
+
+    if (empty($entityType) || empty($entityId)) {
+      $entity = $this->loadCurrentEntity($entityType);
     } else {
       $entityId = $this->getOptionValue('entity_id');
 
@@ -94,10 +100,13 @@ class AluminumContentBlock extends AluminumBlockBase {
   /**
    * Loads the current entity from the current request URI, and returns it if available.
    *
+   * @param null $entityType
+   *   The entity type to load, or empty to try and determine the current entity.
+   *
    * @return \Drupal\Core\Entity\EntityInterface|null
    *   The entity object from the current request URI, or NULL
    */
-  protected function loadCurrentEntity() {
+  protected function loadCurrentEntity($entityType = NULL) {
     $path = \Drupal::service('path.current')->getPath();
 
     $url = Url::fromUri('internal:' . $path);
@@ -107,10 +116,12 @@ class AluminumContentBlock extends AluminumBlockBase {
     $entity = null;
 
     if (!empty($params)) {
-      $entity_type = key($params);
+      if (empty($entityType)) {
+        $entityType = key($params);
+      }
 
-      if (!empty($entity_type)) {
-        $entity = \Drupal::entityTypeManager()->getStorage($entity_type)->load($params[$entity_type]);
+      if (!empty($entityType)) {
+        $entity = \Drupal::entityTypeManager()->getStorage($entityType)->load($params[$entityType]);
       }
     }
 
