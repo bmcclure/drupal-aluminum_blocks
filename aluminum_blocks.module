@@ -37,5 +37,8 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_office_info' => [
       'variables' => ['address' => NULL, 'phone_list' => NULL, 'office_hours' => NULL]
     ],
+    'aluminum_icon' => [
+      'variables' => ['icon' => NULL, 'output_as_link' => NULL, 'link_url' => NULL]
+    ],
   ];
 }

@@ -1,0 +1,11 @@
+<span class="AluminumIcon AluminumIcon--{{ icon }}">
+  {% if output_as_link -%}
+  <a class="AluminumIcon-link" href="{{ link_url }}">
+  {%- endif -%}
+
+    <i class="AluminumIcon-icon fa fa-{{ icon }}"></i>
+
+  {%- if output_as_link -%}
+  </a>
+  {%- endif %}
+</span>
