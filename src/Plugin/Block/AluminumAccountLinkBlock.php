@@ -3,6 +3,7 @@
 namespace Drupal\aluminum_blocks\Plugin\Block;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 
 /**
@@ -79,5 +80,12 @@ class AluminumAccountLinkBlock extends AluminumBlockBase {
       '#url' => $this->getLinkUrl(),
       '#attributes' => ['class' => $classes],
     ];
+  }
+
+  public function getCacheContexts() {
+    //if you depends on \Drupal::routeMatch()
+    //you must set context of this block with 'route' context tag.
+    //Every new route this block will rebuild
+    return Cache::mergeContexts(parent::getCacheContexts(), array('route'));
   }
 }
