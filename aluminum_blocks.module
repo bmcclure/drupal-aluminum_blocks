@@ -40,5 +40,8 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_icon' => [
       'variables' => ['icon' => NULL, 'output_as_link' => NULL, 'link_url' => NULL]
     ],
+    'aluminum_link' => [
+      'variables' => ['title' => NULL, 'url' => NULL, 'classes' => []]
+    ],
   ];
 }
