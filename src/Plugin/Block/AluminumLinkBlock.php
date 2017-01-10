@@ -5,6 +5,7 @@ use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides an 'Link' block
@@ -31,7 +32,7 @@ class AluminumLinkBlock extends AluminumBlockBase {
     $options['link_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Link URL'),
-      '#description' => $this->t('Enter the URL, path, or route to use for the link.'),
+      '#description' => $this->t('Enter the URL, path, or route to use for the link. Use the token [back] to link to the previous page.'),
       '#default_value' => '',
     ];
 
@@ -62,16 +63,41 @@ class AluminumLinkBlock extends AluminumBlockBase {
   public function build() {
     $classes = ['aluminum-link'];
 
-    if ($this->isActiveTrail()) {
+    if ($this->getOptionValue('link_url') != '[back]' && $this->isActiveTrail()) {
       $classes[] = 'is-activeTrail';
     }
 
-    return [
+    $build = [
       '#theme' => 'aluminum_link',
       '#title' => $this->t($this->getOptionValue('link_text')),
-      '#url' => $this->getOptionValue('link_url'),
+      '#url' => $this->getUrl(),
       '#classes' => $classes,
     ];
+
+    if ($this->getOptionValue('link_url') == '[back]') {
+      $build['#cache']['max-age'] = 0;
+    }
+
+    return $build;
+  }
+
+  protected function getUrl() {
+    $url = $this->getOptionValue('link_url');
+
+    if ($url == '[back]') {
+      $previousUrl = \Drupal::request()->server->get('HTTP_REFERER');
+      $fake_request = Request::create($previousUrl);
+      /** @var \Drupal\Core\Url $url_object */
+      $url_object = \Drupal::service('path.validator')->getUrlIfValid($fake_request->getRequestUri());
+
+      if ($url_object) {
+        $url = \Drupal::service('path.alias_manager')->getAliasByPath('/'.$url_object->getInternalPath());
+      } else {
+        $url = '/';
+      }
+    }
+
+    return $url;
   }
 
   public function getCacheContexts() {
