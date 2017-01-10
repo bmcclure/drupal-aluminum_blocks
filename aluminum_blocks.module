@@ -25,6 +25,9 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_link_list' => [
       'variables' => ['list' => NULL],
     ],
+    'aluminum_dropdown_links' => [
+      'variables' => ['link_list' => NULL, 'button_text' => NULL],
+    ],
     'aluminum_phone_number' => [
       'variables' => ['phone_number' => NULL, 'url' => NULL]
     ],

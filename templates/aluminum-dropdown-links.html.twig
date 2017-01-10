@@ -1,0 +1,16 @@
+<div class="AluminumDropdownLinks">
+  <a href="#" class="AluminumDropdownLinks-button">{{ button_text }}</a>
+
+  <ul class="AluminumDropdownLinks-list">
+    {% for link in link_list %}
+      <li class="AluminumDropdownLinks-item">
+        <a class="AluminumDropdownLinks-link" target="_blank" href="{{ link.href }}">
+          {{ link.title }}
+          {%- if link.icon -%}
+            <i class="AluminumDropdownLinks-icon fa fa-{{ link.icon }}"></i>
+          {%- endif -%}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
