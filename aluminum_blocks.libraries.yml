@@ -1,0 +1,8 @@
+aluminum_iframe:
+  version: VERSION
+  css:
+    theme:
+      css/aluminum-iframe.css: {}
+  js:
+    js/iframeResizer.min.js: {}
+    js/aluminum-iframe.js: {}

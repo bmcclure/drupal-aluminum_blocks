@@ -44,7 +44,18 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
       'variables' => ['icon' => NULL, 'output_as_link' => NULL, 'link_url' => NULL]
     ],
     'aluminum_link' => [
-      'variables' => ['title' => NULL, 'url' => NULL, 'classes' => []]
+      'variables' => ['title' => NULL, 'url' => NULL, 'classes' => []],
+    ],
+    'aluminum_iframe' => [
+      'variables' => [
+        'src' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+        'remove_border' => NULL,
+        'responsive' => NULL,
+        'fit_content' => NULL,
+        'name' => NULL,
+      ],
     ],
   ];
 }

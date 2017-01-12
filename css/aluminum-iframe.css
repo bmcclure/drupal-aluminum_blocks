@@ -1,0 +1,12 @@
+.AluminumIframe {
+
+}
+
+.AluminumIframe--noBorder .AluminumIframe-frame {
+  border-width: 0;
+}
+
+.AluminumIframe.is-responsive .AluminumIframe-frame {
+  width: 100%;
+  height: 100%;
+}

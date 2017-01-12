@@ -1,0 +1,10 @@
+{% set classes = [
+  'AluminumIframe',
+  remove_border ? 'AluminumIframe--noBorder',
+  responsive ? 'is-responsive',
+  fit_content ? 'js-fitContent'
+] %}
+
+<div class="{{ classes|join(' ') }}">
+  <iframe class="AluminumIframe-frame" src="{{ src }}" width="{{ width }}" height="{{ height }}" name="{{ name }}"></iframe>
+</div>
