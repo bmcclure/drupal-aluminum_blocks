@@ -46,6 +46,9 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_link' => [
       'variables' => ['title' => NULL, 'url' => NULL, 'classes' => []],
     ],
+    'aluminum_script_tag' => [
+      'variables' => ['wrapper_classes' => '', 'wrapper_id' => '', 'script' => NULL],
+    ],
     'aluminum_iframe' => [
       'variables' => [
         'src' => NULL,
