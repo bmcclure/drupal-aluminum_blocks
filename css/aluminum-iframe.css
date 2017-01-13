@@ -6,7 +6,10 @@
   border-width: 0;
 }
 
-.AluminumIframe.is-responsive .AluminumIframe-frame {
+.AluminumIframe.AluminumIframe--responsiveWidth .AluminumIframe-frame {
   width: 100%;
+}
+
+.AluminumIframe.AluminumIframe--responsiveHeight .AluminumIframe-frame {
   height: 100%;
 }

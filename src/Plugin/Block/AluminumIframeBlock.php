@@ -52,11 +52,36 @@ class AluminumIframeBlock extends AluminumBlockBase {
       '#default_value' => TRUE,
     ];
 
-    $options['responsive'] = [
+    $options['responsive_width'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Make frame responsive'),
-      '#description' => $this->t('Check this box to make the frame stretch to fill its parent container.'),
+      '#title' => $this->t('Make frame width responsive'),
+      '#description' => $this->t('Check this box to make the frame width stretch to fill its parent container.'),
       '#default_value' => TRUE,
+    ];
+
+    $options['max_width'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Max width'),
+      '#description' => $this->t('If using a responsive width, this CSS value can be specified as the maximum.'),
+      '#min' => 0,
+      '#size' => 10,
+      '#default_value' => 0,
+    ];
+
+    $options['responsive_height'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Make frame height responsive'),
+      '#description' => $this->t('Check this box to make the frame width stretch to fill its parent container.'),
+      '#default_value' => FALSE,
+    ];
+
+    $options['max_height'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Max height'),
+      '#description' => $this->t('If using a responsive height, this CSS value can be specified as the maximum.'),
+      '#min' => 0,
+      '#size' => 10,
+      '#default_value' => 0,
     ];
 
     $options['fit_content'] = [
@@ -64,6 +89,13 @@ class AluminumIframeBlock extends AluminumBlockBase {
       '#title' => $this->t('Fit content'),
       '#description' => $this->t('Check this box to automatically adjust the iframe\'s height to fit its content.'),
       '#default_value' => FALSE,
+    ];
+
+    $options['center'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Center iframe'),
+      '#description' => $this->t('Center the iframe within the block.'),
+      '#default_value' => TRUE,
     ];
 
     $options['name'] = [
@@ -76,6 +108,42 @@ class AluminumIframeBlock extends AluminumBlockBase {
     return $options;
   }
 
+  protected function buildWrapperCss() {
+    $center = $this->getOptionValue('center');
+
+    $output = '';
+
+    if ($center) {
+      $output .= 'margin-left: auto; margin-right: auto;';
+    }
+
+    return $output;
+  }
+
+  protected function buildCss() {
+    $css = [];
+
+    $maxWidth = $this->getOptionValue('max_width');
+    $maxHeight = $this->getOptionValue('max_height');
+
+
+    if ($maxWidth > 0) {
+      $css['max-width'] = $maxWidth;
+    }
+
+    if ($maxHeight > 0) {
+      $css['max-height'] = $maxHeight;
+    }
+
+    $output = '';
+
+    foreach ($css as $name => $val) {
+      $output .= "$name: $val;";
+    }
+
+    return $output;
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -86,10 +154,13 @@ class AluminumIframeBlock extends AluminumBlockBase {
       '#width' => $this->getOptionValue('width'),
       '#height' => $this->getOptionValue('height'),
       '#remove_border' => $this->getOptionValue('remove_border'),
-      '#responsive' => $this->getOptionValue('responsive'),
+      '#responsive_width' => $this->getOptionValue('responsive_width'),
+      '#responsive_height' => $this->getOptionValue('responsive_height'),
       '#name' => $this->getOptionValue('name'),
       '#fit_content' => $this->getOptionValue('fit_content'),
       '#attached' => ['library' => ['aluminum_blocks/aluminum_iframe']],
+      '#css' => $this->buildCss(),
+      '#wrapper_css' => $this->buildWrapperCss(),
     ];
   }
 }

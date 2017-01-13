@@ -1,10 +1,11 @@
 {% set classes = [
   'AluminumIframe',
   remove_border ? 'AluminumIframe--noBorder',
-  responsive ? 'is-responsive',
+  responsive_width ? 'AluminumIframe--responsiveWidth',
+  responsive_height ? 'AluminumIframe--responsiveHeight',
   fit_content ? 'js-fitContent'
 ] %}
 
-<div class="{{ classes|join(' ') }}">
-  <iframe class="AluminumIframe-frame" src="{{ src }}" width="{{ width }}" height="{{ height }}" name="{{ name }}"></iframe>
+<div class="{{ classes|join(' ') }}"{% if wrapper_css %} style="{{ wrapper_css }}"{% endif %}>
+  <iframe class="AluminumIframe-frame" src="{{ src }}" width="{{ width }}" height="{{ height }}" name="{{ name }}"{% if css %} style="{{ css }}"{% endif %}></iframe>
 </div>
