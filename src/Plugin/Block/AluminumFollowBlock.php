@@ -85,12 +85,16 @@ class AluminumFollowBlock extends AluminumBlockBase {
 
     foreach ($socialNetworks as $id => $name) {
       if ($this->getOptionValue($id . '_enabled')) {
-        $networks[$id] = [
-          'name' => $name,
-          'weight' => $this->getOptionValue($id . '_weight'),
-          'url' => $config->getValue($id . '_page_url', 'social', ''),
-          'icon_class' => $this->iconClass($id)
-        ];
+        $url = $config->getValue($id . '_page_url', 'social', '');
+
+        if (!empty($url)) {
+          $networks[$id] = [
+            'name' => $name,
+            'weight' => $this->getOptionValue($id . '_weight'),
+            'url' => $config->getValue($id . '_page_url', 'social', ''),
+            'icon_class' => $this->iconClass($id)
+          ];
+        }
       }
     }
 
