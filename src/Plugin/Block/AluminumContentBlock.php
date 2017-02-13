@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\aluminum_blocks\Plugin\Block;
+
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
 use Drupal\Core\Url;
@@ -45,9 +46,9 @@ class AluminumContentBlock extends AluminumBlockBase {
    */
   public function build() {
     return [
-      'content' => $this->getEntityView(),
+      'content' => $this->getEntityView()['view'],
       '#cache' => [
-        'contexts' => ['url.path']
+        'max-age' => 0,
       ]
     ];
   }
@@ -69,7 +70,12 @@ class AluminumContentBlock extends AluminumBlockBase {
 
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder($entity->getEntityTypeId());
 
-    return $view_builder->view($entity, $viewMode);
+    $view = [
+      'view' => $view_builder->view($entity, $viewMode),
+      'tags' => $view_builder->getCacheTags(),
+    ];
+
+    return $view;
   }
 
   /**
@@ -126,5 +132,13 @@ class AluminumContentBlock extends AluminumBlockBase {
     }
 
     return $entity;
+  }
+
+  public function getCacheTags() {
+    return $this->getEntityView()['tags'];
+  }
+
+  public function getCacheContexts() {
+    return parent::getCacheContexts();
   }
 }
