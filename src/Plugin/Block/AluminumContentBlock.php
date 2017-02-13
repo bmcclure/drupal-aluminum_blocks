@@ -46,7 +46,7 @@ class AluminumContentBlock extends AluminumBlockBase {
    */
   public function build() {
     return [
-      'content' => $this->getEntityView()['view'],
+      'content' => $this->getEntityView(),
       '#cache' => [
         'max-age' => 0,
       ]
@@ -70,12 +70,7 @@ class AluminumContentBlock extends AluminumBlockBase {
 
     $view_builder = \Drupal::entityTypeManager()->getViewBuilder($entity->getEntityTypeId());
 
-    $view = [
-      'view' => $view_builder->view($entity, $viewMode),
-      'tags' => $view_builder->getCacheTags(),
-    ];
-
-    return $view;
+    return $view_builder->view($entity, $viewMode);
   }
 
   /**
@@ -132,13 +127,5 @@ class AluminumContentBlock extends AluminumBlockBase {
     }
 
     return $entity;
-  }
-
-  public function getCacheTags() {
-    return $this->getEntityView()['tags'];
-  }
-
-  public function getCacheContexts() {
-    return parent::getCacheContexts();
   }
 }
