@@ -65,3 +65,10 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function aluminum_blocks_library_info_alter(&$libraries, $extension) {
+
+}

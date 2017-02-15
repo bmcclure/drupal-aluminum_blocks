@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\aluminum_blocks\Plugin\Block;
+
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
 use Drupal\Core\Url;
@@ -47,7 +48,7 @@ class AluminumContentBlock extends AluminumBlockBase {
     return [
       'content' => $this->getEntityView(),
       '#cache' => [
-        'contexts' => ['url.path']
+        'max-age' => 0,
       ]
     ];
   }
