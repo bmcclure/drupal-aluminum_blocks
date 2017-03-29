@@ -4,6 +4,7 @@ namespace Drupal\aluminum_blocks\Plugin\Block;
 
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Url;
 
 /**
@@ -45,12 +46,19 @@ class AluminumContentBlock extends AluminumBlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return [
-      'content' => $this->getEntityView(),
+    $build = [
       '#cache' => [
         'max-age' => 0,
       ]
     ];
+
+    $content = $this->getEntityView();
+
+    if (!empty($content)) {
+      $build['content'] = $content;
+    }
+
+    return $build;
   }
 
   /**
@@ -59,24 +67,73 @@ class AluminumContentBlock extends AluminumBlockBase {
    * @return array
    */
   protected function getEntityView() {
+    $entity_view = [];
     $entity = $this->loadEntity();
 
-    if (is_null($entity)) {
-      return [];
+    if (!is_null($entity)) {
+      $view_mode = $this->getOptionValue('view_mode') ?: 'full';
+
+      if ($this->hasContent($entity, $view_mode)) {
+        $entity_view = \Drupal::entityTypeManager()
+          ->getViewBuilder($entity->getEntityTypeId())
+          ->view($entity, $view_mode);
+      }
     }
 
-    $viewMode = $this->getOptionValue('view_mode');
-    $viewMode = $viewMode ?: 'full';
+    return $entity_view;
+  }
 
-    $view_builder = \Drupal::entityTypeManager()->getViewBuilder($entity->getEntityTypeId());
+  /**
+   * Checks of the entity has content in any of the fields displayed on the
+   * provided view mode.
+   *
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
+   * @param $view_mode
+   * @return bool
+   */
+  protected function hasContent(FieldableEntityInterface $entity, $view_mode) {
+    $has_content = FALSE;
 
-    return $view_builder->view($entity, $viewMode);
+    foreach ($this->getDisplayFields($entity, $view_mode) as $field_name => $field_settings) {
+      if ($entity->hasField($field_name) && !$entity->get($field_name)->isEmpty()) {
+        $has_content = TRUE;
+        break;
+      }
+    }
+
+    return $has_content;
+  }
+
+  /**
+   * Gets the fields that are configured on the provided view mode.
+   *
+   * @param \Drupal\Core\Entity\FieldableEntityInterface $entity
+   * @param $view_mode
+   * @return array
+   */
+  protected function getDisplayFields(FieldableEntityInterface $entity, $view_mode) {
+    $fields = [];
+
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
+    $display = \Drupal::entityTypeManager()
+      ->getStorage('entity_view_display')
+      ->load($entity->getEntityTypeId() . '.' . $entity->bundle() . '.' . $view_mode);
+
+    if (!is_null($display)) {
+      $fields = $display
+        ->removeComponent('title')
+        ->removeComponent('uid')
+        ->removeComponent('created')
+        ->getComponents();
+    }
+
+    return $fields;
   }
 
   /**
    * Load the entity configured by the block
    *
-   * @return \Drupal\Core\Entity\EntityInterface|null
+   * @return \Drupal\Core\Entity\FieldableEntityInterface|null
    *   The loaded entity, or NULL
    */
   protected function loadEntity() {
@@ -91,6 +148,7 @@ class AluminumContentBlock extends AluminumBlockBase {
       $entityId = $this->getOptionValue('entity_id');
 
       if (!empty($entityId)) {
+        /** @var FieldableEntityInterface $entity */
         $entity = \Drupal::entityTypeManager()->getStorage($entityType)->load($entityId);
       }
     }
