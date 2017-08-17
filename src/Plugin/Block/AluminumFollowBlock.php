@@ -43,6 +43,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
         '#title' => $this->t($name . ' enabled'),
         '#description' => $this->t($name . ' will be shown if this box is checked.'),
         '#default_value' => TRUE,
+        '#weight' => $weight,
       ];
 
       $options[$id . '_weight'] = [
@@ -50,6 +51,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
         '#title' => $this->t($name . ' weight'),
         '#description' => $this->t('This integer defines the weight of ' . $name . ' in relation to other links.'),
         '#default_value' => $weight,
+        '#weight' => $weight,
       ];
 
       $weight += 10;

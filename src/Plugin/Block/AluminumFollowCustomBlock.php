@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\aluminum_blocks\Plugin\Block;
+use Drupal\aluminum_storage\Aluminum\Config\ConfigManager;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Block\Annotation\Block;
 
@@ -29,6 +30,7 @@ class AluminumFollowCustomBlock extends AluminumFollowBlock {
         '#title' => $this->t($name . ' url'),
         '#description' => $this->t('The URL for ' . $name . '.' ),
         '#default_value' => '',
+        '#weight' => $weight,
       ];
 
       $weight += 10;
