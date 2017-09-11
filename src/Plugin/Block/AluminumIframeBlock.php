@@ -21,7 +21,7 @@ class AluminumIframeBlock extends AluminumBlockBase {
     $options = [];
 
     $options['src'] = [
-      '#type' => 'textfield',
+      '#type' => 'textarea',
       '#title' => $this->t('Source'),
       '#description' => $this->t('Enter the URL (or Drupal path) to use as the iframe\'s "src" attribute.'),
       '#default_value' => '',

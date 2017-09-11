@@ -68,10 +68,12 @@ class AluminumLinkBlock extends AluminumBlockBase {
     }
 
     $build = [
-      '#theme' => 'aluminum_link',
-      '#title' => $this->t($this->getOptionValue('link_text')),
-      '#url' => $this->getUrl(),
-      '#classes' => $classes,
+      'content' => [
+        '#theme' => 'aluminum_link',
+        '#title' => $this->t($this->getOptionValue('link_text')),
+        '#url' => $this->getUrl(),
+        '#classes' => $classes,
+      ]
     ];
 
     if ($this->getOptionValue('link_url') == '[back]') {
