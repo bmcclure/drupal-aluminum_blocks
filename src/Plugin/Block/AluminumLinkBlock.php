@@ -32,7 +32,7 @@ class AluminumLinkBlock extends AluminumBlockBase {
     $options['link_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Link URL'),
-      '#description' => $this->t('Enter the URL, path, or route to use for the link. Use the token [back] to link to the previous page.'),
+      '#description' => $this->t('Enter the URL, path, or route to use for the link. Use the token [back] to link to the previous page, or [current] to append the current URL to your link.'),
       '#default_value' => '',
     ];
 
@@ -86,17 +86,23 @@ class AluminumLinkBlock extends AluminumBlockBase {
   protected function getUrl() {
     $url = $this->getOptionValue('link_url');
 
-    if ($url == '[back]') {
+    if (strpos($url, '[back]') !== FALSE) {
       $previousUrl = \Drupal::request()->server->get('HTTP_REFERER');
       $fake_request = Request::create($previousUrl);
       /** @var \Drupal\Core\Url $url_object */
       $url_object = \Drupal::service('path.validator')->getUrlIfValid($fake_request->getRequestUri());
 
       if ($url_object) {
-        $url = \Drupal::service('path.alias_manager')->getAliasByPath('/'.$url_object->getInternalPath());
+        $back_url = \Drupal::service('path.alias_manager')->getAliasByPath('/'.$url_object->getInternalPath());
       } else {
-        $url = '/';
+        $back_url = '/';
       }
+      $url = str_replace('[back]', $back_url, $url);
+    }
+
+    if (strpos($url, '[current]') !== FALSE) {
+      $current = \Drupal::request()->getRequestUri();
+      $url = str_replace('[current]', $current, $url);
     }
 
     return $url;
