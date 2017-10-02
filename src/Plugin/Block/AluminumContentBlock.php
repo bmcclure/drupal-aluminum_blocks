@@ -176,11 +176,17 @@ class AluminumContentBlock extends AluminumBlockBase {
 
     if (!empty($params)) {
       if (empty($entityType)) {
-        $entityType = key($params);
+        if (isset($params['entity_type'])) {
+          $entityType = $params['entity_type'];
+        } else {
+          $entityType = key($params);
+        }
+
       }
 
       if (!empty($entityType)) {
-        $entity = \Drupal::entityTypeManager()->getStorage($entityType)->load($params[$entityType]);
+        $param = isset($params['entity']) ? $params['entity'] : $params[$entityType];
+        $entity = \Drupal::entityTypeManager()->getStorage($entityType)->load($param);
       }
     }
 
