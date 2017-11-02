@@ -1,0 +1,16 @@
+block.settings.aluminum_office_info:
+  type: block_settings
+  label: 'Aluminum office information block'
+  mapping:
+    display_short_titles:
+      type: boolean
+      label: 'Display short titles'
+    custom_phone_number:
+      type: label
+      label: 'Custom phone number'
+    office_address:
+      type: text_format
+      label: 'Office address'
+    office_hours:
+      type: text_format
+      label: 'Office hours'
