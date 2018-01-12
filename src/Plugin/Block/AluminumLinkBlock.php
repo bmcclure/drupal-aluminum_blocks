@@ -48,7 +48,7 @@ class AluminumLinkBlock extends AluminumBlockBase {
 
     $url = Url::fromUserInput($linkUrl);
 
-    if ($url->isExternal()) {
+    if ($url->isExternal() || !$url->isRouted()) {
       return FALSE;
     }
 
