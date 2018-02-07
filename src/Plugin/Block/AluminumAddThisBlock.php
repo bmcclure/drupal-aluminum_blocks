@@ -2,6 +2,8 @@
 
 namespace Drupal\aluminum_blocks\Plugin\Block;
 
+use Drupal\Core\Cache\Cache;
+
 /**
  * Provides an 'AddThis' block
  *
@@ -15,9 +17,20 @@ class AluminumAddThisBlock extends AluminumBlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    return [
+    $build = [
       '#markup' => '<div class="AddThis"><div class="addthis_inline_share_toolbox"></div></div>',
-      '#attached' => ['library' => ['aluminum_blocks/aluminum_addthis']]
+      '#attached' => ['library' => ['aluminum_blocks/aluminum_addthis']],
     ];
+    // Disable caching for this block
+    $build['#cache']['max-age'] = 0;
+
+    return $build;
+  }
+
+  public function getCacheContexts() {
+    //if you depends on \Drupal::routeMatch()
+    //you must set context of this block with 'route' context tag.
+    //Every new route this block will rebuild
+    return Cache::mergeContexts(parent::getCacheContexts(), array('route'));
   }
 }
