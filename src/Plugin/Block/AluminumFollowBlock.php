@@ -46,12 +46,44 @@ class AluminumFollowBlock extends AluminumBlockBase {
         '#weight' => $weight,
       ];
 
+      $options[$id . '_url_override'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t($name . ' url override'),
+        '#description' => $this->t('If this is checked, the provided URL will be used.'),
+        '#default_value' => FALSE,
+        '#weight' => $weight,
+        '#states' => [
+          'visible' => [
+            ':input[name="settings[' . $id . '_enabled]"]' => ['checked' => TRUE],
+          ]
+        ]
+      ];
+
+      $options[$id . '_url'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t($name . ' url'),
+        '#description' => $this->t('The URL for ' . $name . '.' ),
+        '#default_value' => '',
+        '#weight' => $weight,
+        '#states' => [
+          'visible' => [
+            ':input[name="settings[' . $id . '_enabled]"]' => ['checked' => TRUE],
+            ':input[name="settings[' . $id . '_url_override]"]' => ['checked' => TRUE],
+          ]
+        ]
+      ];
+
       $options[$id . '_weight'] = [
         '#type' => 'textfield',
         '#title' => $this->t($name . ' weight'),
         '#description' => $this->t('This integer defines the weight of ' . $name . ' in relation to other links.'),
         '#default_value' => $weight,
         '#weight' => $weight,
+        '#states' => [
+          'visible' => [
+            ':input[name="settings[' . $id . '_enabled]"]' => ['checked' => TRUE],
+          ]
+        ]
       ];
 
       $weight += 10;
@@ -66,7 +98,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
     $class = $config->getValue($id . '_icon_class', 'icons');
 
     if (empty($class)) {
-      return "";
+      return '';
     }
 
     $baseIconClass = $config->getValue('base_icon_class', 'icons');
@@ -79,21 +111,18 @@ class AluminumFollowBlock extends AluminumBlockBase {
   }
 
   protected function getSocialNetworks() {
-    $config = ConfigManager::getConfig('content');
-
     $socialNetworks = aluminum_storage_social_networks();
-
     $networks = [];
 
     foreach ($socialNetworks as $id => $name) {
       if ($this->getOptionValue($id . '_enabled')) {
-        $url = $config->getValue($id . '_page_url', 'social', '');
+        $url = $this->getUrl($id);
 
         if (!empty($url)) {
           $networks[$id] = [
             'name' => $name,
             'weight' => $this->getOptionValue($id . '_weight'),
-            'url' => $config->getValue($id . '_page_url', 'social', ''),
+            'url' => $url,
             'icon_class' => $this->iconClass($id)
           ];
         }
@@ -101,7 +130,7 @@ class AluminumFollowBlock extends AluminumBlockBase {
     }
 
     usort($networks, function ($a, $b) {
-      if ($a['weight'] == $b['weight']) {
+      if ($a['weight'] === $b['weight']) {
         return 0;
       }
 
@@ -109,6 +138,18 @@ class AluminumFollowBlock extends AluminumBlockBase {
     });
 
     return $networks;
+  }
+
+  private function getUrl($id) {
+    $config = ConfigManager::getConfig('content');
+
+    if ($this->getOptionValue($id . '_url_override')) {
+      $url = $this->getOptionValue($id . '_url');
+    } else {
+      $url = $config->getValue($id . '_page_url', 'social', '');
+    }
+
+    return $url;
   }
 
   /**
