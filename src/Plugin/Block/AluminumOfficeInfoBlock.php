@@ -27,6 +27,12 @@ class AluminumOfficeInfoBlock extends AluminumPhoneNumberListBlock {
   public function getOptions() {
     $options = parent::getOptions();
 
+    $options['custom_phone_number'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Custom phone number'),
+      '#default_value' => '',
+    ];
+
     $options['office_address'] = [
       '#type' => 'text_format',
       '#format' => 'basic_html',
@@ -82,5 +88,21 @@ class AluminumOfficeInfoBlock extends AluminumPhoneNumberListBlock {
         '#format' => $officeHours['format'],
       ],
     ];
+  }
+
+  public function getList() {
+    $list = parent::getList();
+
+    $customPhoneNumber = $this->getOptionValue('custom_phone_number');
+
+    if (!empty($customPhoneNumber)) {
+      $list[] = [
+        'title' => $this->t('Phone'),
+        'phone_number' => $customPhoneNumber,
+        'url' => 'tel:' . $customPhoneNumber,
+      ];
+    }
+
+    return $list;
   }
 }
