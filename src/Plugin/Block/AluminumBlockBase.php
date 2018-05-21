@@ -29,8 +29,8 @@ abstract class AluminumBlockBase extends BlockBase implements BlockPluginInterfa
     }
 
     return strtolower(preg_replace([
-      '/([a-z\d])([A-Z])/',
-      '/([^_])([A-Z][a-z])/'
+        '/([a-z\d])([A-Z])/',
+        '/([^_])([A-Z][a-z])/'
     ], '$1_$2', self::class));
   }
 
@@ -47,6 +47,13 @@ abstract class AluminumBlockBase extends BlockBase implements BlockPluginInterfa
     $options = $this->getOptions();
 
     $default = isset($options[$option_name]['#default_value']) ? $options[$option_name]['#default_value'] : '';
+
+    if (isset($config[$option_name]['#type']) && $config[$option_name]['#type'] === 'formatted_text') {
+      $default = [
+          'format' => $config[$option_name]['#format'],
+          'value' => $default,
+      ];
+    }
 
     $value = isset($config[$option_name]) ? $config[$option_name] : $default;
 
@@ -67,8 +74,8 @@ abstract class AluminumBlockBase extends BlockBase implements BlockPluginInterfa
 
     foreach ($this->getOptions() as $option_name => $option) {
       $option += [
-        '#type' => 'textfield',
-        '#title' => $this->t(ucfirst(str_replace('_', ' ', $option_name))),
+          '#type' => 'textfield',
+          '#title' => $this->t(ucfirst(str_replace('_', ' ', $option_name))),
       ];
 
       $default = isset($option['#default_value']) ? $option['#default_value'] : '';
