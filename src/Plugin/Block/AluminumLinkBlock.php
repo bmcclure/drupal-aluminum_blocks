@@ -105,6 +105,11 @@ class AluminumLinkBlock extends AluminumBlockBase {
       $url = str_replace('[current]', $current, $url);
     }
 
+    if ((strpos($url, '/') === 0) || (strpos($url, '#') === 0) || (strpos($url, '?') === 0)) {
+      $urlObject = Url::fromUserInput($url);
+      $url = $urlObject->toString();
+    }
+
     return $url;
   }
 
