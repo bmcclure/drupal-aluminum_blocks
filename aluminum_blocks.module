@@ -49,6 +49,9 @@ function aluminum_blocks_theme($existing, $type, $theme, $path) {
     'aluminum_script_tag' => [
       'variables' => ['wrapper_classes' => '', 'wrapper_id' => '', 'script' => NULL],
     ],
+    'aluminum_snippet' => [
+      'variables' => ['wrapper_classes' => '', 'wrapper_id' => '', 'snippet' => ''],
+    ],
     'aluminum_iframe' => [
       'variables' => [
         'src' => NULL,
