@@ -93,7 +93,7 @@ class AluminumLinkBlock extends AluminumBlockBase {
       $url_object = \Drupal::service('path.validator')->getUrlIfValid($fake_request->getRequestUri());
 
       if ($url_object) {
-        $back_url = \Drupal::service('path.alias_manager')->getAliasByPath('/'.$url_object->getInternalPath());
+        $back_url = \Drupal::service('path_alias.manager')->getAliasByPath('/'.$url_object->getInternalPath());
       } else {
         $back_url = '/';
       }
